@@ -1,6 +1,17 @@
 <template>
   <header class="h-[58px] bg-white border-b border-gray-100 flex items-center justify-between px-7 gap-4 sticky top-0 z-10">
-    <div class="flex items-center gap-4 flex-shrink-0 ml-auto">
+    <button
+      @click="$emit('toggle-sidebar')"
+      class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f] transition-colors flex-shrink-0"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="flex items-center gap-4 flex-shrink-0">
       <!-- Bell -->
       <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f] transition-colors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
