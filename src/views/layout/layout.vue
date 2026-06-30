@@ -3,10 +3,13 @@
     <Sidebar :is-open="sidebarOpen" />
 
     <div class="flex flex-col flex-1 h-screen overflow-hidden">
-      <Header :user="currentUser" @toggle-sidebar="sidebarOpen = !sidebarOpen" />
-      <main class="flex-1 overflow-y-auto">
-        <div class="p-7 bg-gray-50 min-h-full pb-24 md:pb-7">
-          <router-view :user="currentUser" />
+      <Header :user="currentUser" @toggle-sidebar="toggleSidebar" />
+      <main class="flex-1 overflow-y-auto pb-16 md:pb-0">
+        <div class="flex flex-col min-h-full">
+          <div class="p-7 bg-gray-50 flex-1">
+            <router-view :user="currentUser" />
+          </div>
+          <Footer />
         </div>
       </main>
     </div>
@@ -16,18 +19,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import Sidebar from '../components/Sidebar.vue'
-import Header from '../components/Header.vue'
-import BottomNav from '../components/BotNav.vue'
+import Sidebar from '@/components/layout/Sidebar.vue'
+import Header from '@/components/layout/Header.vue'
+import BottomNav from '@/components/layout/BotNav.vue'
+import Footer from '@/components/layout/Footer.vue'
+import { useLayout } from '@/composables/layout/useLayout.js'
 
-const sidebarOpen = ref(true)
-
-const currentUser = ref(
-  JSON.parse(localStorage.getItem('user') || 'null') || {
-    name: 'Awan',
-    role: 'Developer',
-    avatar: null,
-  }
-)
+const { sidebarOpen, currentUser, toggleSidebar } = useLayout()
 </script>

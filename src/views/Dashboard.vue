@@ -2,21 +2,21 @@
   <!-- Page Header -->
   <div class="flex items-start justify-between mb-7">
     <div>
-      <h1 class="text-[26px] font-bold text-[#1a1a2e] mb-1">Selamat Pagi, {{ user.name }}</h1>
+      <h1 class="text-[26px] font-bold text-[#1a1a2e] mb-1">{{ greeting }}, {{ user.name }}</h1>
       <p class="text-[13.5px] text-gray-400">Semoga harimu produktif dan penuh inspirasi.</p>
     </div>
     <div class="text-right">
-      <div class="flex items-center justify-end gap-1.5 text-xl font-bold text-[#1a1a2e]">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="flex items-center justify-end gap-1 lg:gap-1.5 text-[15px] lg:text-xl font-bold text-[#1a1a2e]">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:w-4 lg:h-4">
           <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
         </svg>
         <span class="tabular-nums">{{ currentTime }}</span>
       </div>
-      <div class="flex items-center justify-end gap-1 text-xs text-gray-400 mt-1">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="flex items-center justify-end gap-1 text-[10px] lg:text-xs text-gray-400 mt-0.5 lg:mt-1">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lg:w-3 lg:h-3 flex-shrink-0">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
         </svg>
-        Jakarta, Indonesia
+        <span class="whitespace-nowrap">Jakarta, Indonesia</span>
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@
             <span class="inline-block text-[10.5px] font-bold tracking-widest text-[#1e3a5f] bg-blue-50 rounded-md px-2.5 py-1 w-fit">
               SHIFT PAGI
             </span>
-            <h2 class="text-[22px] font-bold text-[#1a1a2e] leading-snug">
+            <h2 class="text-[20px] font-bold text-[#1a1a2e] leading-snug">
               Waktunya melakukan<br />Clock In
             </h2>
             <p class="text-[13px] text-gray-400">
@@ -58,21 +58,21 @@
             <button
               v-if="!isClockedIn && !clockOutTime"
               @click="showClockInModal = true"
-              class="mt-2 w-full bg-gradient-to-br from-[#315e90] to-[#4b77aa] text-white rounded-xl py-3.5 text-[14.5px] font-semibold active:scale-95 transition-transform"
+              class="mt-2 self-start w-[355px] bg-gradient-to-br from-[#315e90] to-[#4b77aa] text-white rounded-xl py-3.5 text-[14.5px] font-semibold active:scale-95 transition-transform"
             >
               Clock In Sekarang
             </button>
             <button
               v-else-if="isClockedIn"
               @click="showClockInModal = true"
-              class="mt-2 w-full bg-red-500 text-white rounded-xl py-3.5 text-[14.5px] font-semibold active:scale-95 transition-transform"
+              class="mt-2 self-start w-[355px] bg-red-500 text-white rounded-xl py-3.5 text-[14.5px] font-semibold active:scale-95 transition-transform"
             >
               Clock Out Sekarang
             </button>
             <button
               v-else
               disabled
-              class="mt-2 w-full bg-gray-100 text-gray-400 rounded-xl py-3.5 text-[14.5px] font-semibold cursor-not-allowed"
+              class="mt-2 self-start w-[355px] bg-gray-100 text-gray-400 rounded-xl py-3.5 text-[14.5px] font-semibold cursor-not-allowed"
             >
               Sudah Selesai Hari Ini 
             </button>
@@ -113,21 +113,21 @@
             </span>
           </div>
         </div>
-        <a href="#" class="text-[12.5px] font-semibold text-[#1e3a5f] hover:underline">
+        <router-link
+          to="/attendance/timesheet"
+          class="text-[12.5px] font-semibold text-[#1e3a5f] hover:underline"
+        >
           Lihat Detail Kehadiran
-        </a>
+        </router-link>
       </div>
 
       <!-- Productivity Card -->
       <div class="bg-gradient-to-br from-[#315e90] to-[#4b77aa] rounded-2xl p-6 flex flex-col gap-2 flex-1">
         <p class="text-[10.5px] font-bold tracking-widest text-white/50">PRODUKTIVITAS</p>
-        <p class="text-[42px] font-extrabold text-white leading-none">92%</p>
+        <p class="font-heading text-[42px] font-extrabold text-white leading-none">{{ monthlyAttendanceRate }}%</p>
         <p class="text-[12.5px] text-white/70 leading-relaxed">
-          Kehadiran Anda 5% lebih tinggi dibandingkan rata-rata tim bulan ini.
+          Kehadiran Anda bulan ini {{ productivityTrend }} dibanding bulan sebelumnya.
         </p>
-        <a href="#" class="text-[13px] font-semibold text-white/80 hover:text-white transition-colors mt-auto">
-          Lihat Statistik →
-        </a>
       </div>
     </div>
 
@@ -215,21 +215,21 @@
           </span>
         </div>
       </div>
-      <a href="#" class="text-[12.5px] font-semibold text-[#1e3a5f] hover:underline">
+      <router-link
+        to="/attendance/timesheet"
+        class="text-[12.5px] font-semibold text-[#1e3a5f] hover:underline"
+      >
         Lihat Detail Kehadiran
-      </a>
+      </router-link>
     </div>
 
     <!-- Productivity Card -->
     <div class="bg-gradient-to-br from-[#315e90] to-[#4b77aa] rounded-2xl p-5 flex flex-col gap-2">
       <p class="text-[10.5px] font-bold tracking-widest text-white/50">PRODUKTIVITAS</p>
-      <p class="text-[38px] font-extrabold text-white leading-none">92%</p>
+      <p class="font-heading text-[42px] font-extrabold text-white leading-none">{{ monthlyAttendanceRate }}%</p>
       <p class="text-[12.5px] text-white/70 leading-relaxed">
-        Kehadiran Anda 5% lebih tinggi dibandingkan rata-rata tim bulan ini.
+        Kehadiran Anda bulan ini {{ productivityTrend }} dibanding bulan sebelumnya.
       </p>
-      <a href="#" class="text-[13px] font-semibold text-white/80 hover:text-white transition-colors mt-1">
-        Lihat Statistik →
-      </a>
     </div>
 
   </div>
@@ -245,88 +245,28 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import ClockInModal from '../views/components/ClockInModal.vue'
-
-const currentTime = ref('')
-const countdown = ref('00:00:00')
-
-const isClockedIn = ref(false)
-const clockInTime = ref(null)
-const clockOutTime = ref(null)
-const lateMinutes = ref(0)
-const isLate = ref(false)
-const workDuration = ref('00:00:00')
-const clockInRaw = ref(null)
-const showClockInModal = ref(false)
+import ClockInModal from '@/components/attendance/ClockInModal.vue'
+import { useDashboard } from '@/composables/useDashboard.js'
 
 const { user } = defineProps({
   user: Object
 })
 
-const weekDays = ref([
-  { label: 'SEN', status: 'present', today: false },
-  { label: 'SEL', status: 'present', today: false },
-  { label: 'RAB', status: 'absent',  today: false },
-  { label: 'KAM', status: 'late',    today: true  },
-  { label: 'JUM', status: 'empty',   today: false },
-])
-
-function getGreeting() {
-  const h = new Date().getHours()
-  if (h >= 5 && h < 11) return 'Selamat Pagi'
-  if (h >= 11 && h < 15) return 'Selamat Siang'
-  if (h >= 15 && h < 18) return 'Selamat Sore'
-  return 'Selamat Malam'
-}
-
-function formatTime(date) {
-  const pad = n => String(n).padStart(2, '0')
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`
-}
-
-function statusClass(status) {
-  return {
-    present: 'bg-green-50 text-green-500 border-green-400',
-    absent:  'bg-red-50 text-red-400 border-red-400',
-    late:    'bg-yellow-50 text-yellow-500 border-yellow-400',
-    empty:   'bg-gray-50 text-gray-300 border-gray-200',
-  }[status]
-}
-
-function updateTime() {
-  const now = new Date()
-  const pad = n => String(n).padStart(2, '0')
-  currentTime.value = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
-
-  // Hanya update workDuration saat sedang clock in
-  if (isClockedIn.value && clockInRaw.value) {
-    const diff = Math.floor((now - clockInRaw.value) / 1000)
-    workDuration.value = `${pad(Math.floor(diff / 3600))}:${pad(Math.floor((diff % 3600) / 60))}:${pad(diff % 60)}`
-  }
-}
-
-function handleClockOut() {
-  const now = new Date()
-  clockOutTime.value = formatTime(now)
-  isClockedIn.value = false
-  workDuration.value = (() => {
-    if (!clockInRaw.value) return '00:00:00'
-    const diff = Math.floor((now - clockInRaw.value) / 1000)
-    const pad = n => String(n).padStart(2, '0')
-    return `${pad(Math.floor(diff / 3600))}:${pad(Math.floor((diff % 3600) / 60))}:${pad(diff % 60)}`
-  })()
-}
-
-function onClockInConfirmed(data) {
-  clockInTime.value  = data.time
-  clockInRaw.value   = new Date()
-  isClockedIn.value  = true
-  isLate.value       = data.isLate
-  lateMinutes.value  = data.lateMin
-}
-
-let timer
-onMounted(() => { updateTime(); timer = setInterval(updateTime, 1000) })
-onUnmounted(() => clearInterval(timer))
+const {
+  currentTime,
+  isClockedIn,
+  clockInTime,
+  clockOutTime,
+  lateMinutes,
+  isLate,
+  workDuration,
+  showClockInModal,
+  weekDays,
+  greeting,
+  statusClass,
+  handleClockOut,
+  onClockInConfirmed,
+  monthlyAttendanceRate,
+  productivityTrend,
+} = useDashboard()
 </script>

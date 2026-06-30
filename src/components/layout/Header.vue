@@ -1,8 +1,9 @@
 <template>
-  <header class="h-[58px] bg-white border-b border-gray-100 flex items-center justify-between px-7 gap-4 sticky top-0 z-10">
+  <header class="h-[58px] bg-white border-b border-gray-100 flex items-center justify-between px-4 sm:px-7 gap-3 sm:gap-4 sticky top-0 z-10">
+    <!-- Hamburger: hanya tampil di desktop -->
     <button
       @click="$emit('toggle-sidebar')"
-      class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f] transition-colors flex-shrink-0"
+      class="hidden sm:flex p-1.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f] transition-colors flex-shrink-0"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <line x1="3" y1="6" x2="21" y2="6"/>
@@ -11,8 +12,13 @@
       </svg>
     </button>
 
-    <div class="flex items-center gap-4 flex-shrink-0">
-      <!-- Bell -->
+    <!-- Logo: hanya tampil di mobile -->
+    <div class="flex sm:hidden items-center gap-2 flex-shrink-0">
+      <img src="/assets/img/ruas.png" alt="Logo" class="h-7 w-auto object-contain" />
+    </div>
+
+    <div class="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+      <!-- Notifikasi -->
       <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-[#1e3a5f] transition-colors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -22,7 +28,7 @@
 
       <!-- User -->
       <div class="flex items-center gap-2.5">
-        <div class="text-right">
+        <div class="text-right hidden sm:block">
           <p class="text-[13.5px] font-semibold text-[#1a1a2e] leading-tight">{{ user.name }}</p>
           <p class="text-[11.5px] text-gray-400 leading-tight">{{ user.role }}</p>
         </div>
@@ -36,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   user: {
@@ -45,7 +51,6 @@ const props = defineProps({
   }
 })
 
-const searchQuery = ref('')
 const initials = computed(() =>
   props.user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
 )

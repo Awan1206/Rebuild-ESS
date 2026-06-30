@@ -22,7 +22,7 @@
       <div class="px-8 py-8">
         <!-- Logo + Brand -->
         <div class="flex flex-col items-center mb-7">
-          <img src="/assets/img/ruas.png" className="w-12 h-12" />
+          <img src="/assets/img/ruas.png" class="w-12 h-12" />
           <h1 class="text-[#1B2F4E] font-bold text-lg uppercase">RUAS ESS</h1>
         </div>
 
@@ -96,19 +96,19 @@
 
           <!-- Remember me -->
           <div class="flex items-center gap-2">
-          <button
+            <button
               type="button"
               :class="[
-              'w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all',
-              form.remember ? 'bg-[#1B2F4E] border-[#1B2F4E]' : 'border-slate-300 bg-white'
+                'w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all',
+                form.remember ? 'bg-[#1B2F4E] border-[#1B2F4E]' : 'border-slate-300 bg-white'
               ]"
               @click="form.remember = !form.remember"
-          >
+            >
               <svg v-if="form.remember" class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
               </svg>
-          </button>
-          <span class="text-xs text-slate-500">Ingat saya</span>
+            </button>
+            <span class="text-xs text-slate-500">Ingat saya</span>
           </div>
 
           <!-- Error -->
@@ -123,7 +123,7 @@
           <button
             type="submit"
             :disabled="isLoading"
-            class="w-full bg-[#1B2F4E] hover:bg-[#243d61] active:bg-[#162540] text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#1B2F4E]/30 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            class="w-full bg-gradient-to-br from-[#315e90] to-[#4b77aa] hover:bg-[#243d61] active:bg-[#162540] text-white py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-[#1B2F4E]/30 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
           >
             <svg v-if="isLoading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
@@ -141,55 +141,14 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useLogin } from '@/composables/auth/useLogin.js'
 
-const router = useRouter()
-
-const focused = ref(null)
-const showPassword = ref(false)
-const isLoading = ref(false)
-const errorMessage = ref('')
-
-const form = reactive({
-  email: '',
-  password: '',
-  remember: false,
-})
-
-const dummyUsers = [
-  { email: 'abhista@ruas.id',  password: 'demo123', name: 'Abhista',      role: 'Web Developer',   avatar: null },
-  { email: 'admin@ex.id',    password: 'admin', name: 'Admin',        role: 'Administrator',   avatar: null },
-  { email: 'tes@ex.id',  password: '123', name: 'Tes', role: 'Quality Assurance', avatar: null },
-]
-
-async function handleLogin() {
-  errorMessage.value = ''
-
-  if (!form.email || !form.password) {
-    errorMessage.value = 'Email dan password tidak boleh kosong.'
-    return
-  }
-
-  isLoading.value = true
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  isLoading.value = false
-
-  const user = dummyUsers.find(
-    u => u.email === form.email && u.password === form.password
-  )
-
-  if (!user) {
-    errorMessage.value = 'Email atau password salah. Silakan coba lagi.'
-    return
-  }
-
-  localStorage.setItem('user', JSON.stringify({
-    name: user.name,
-    role: user.role,
-    avatar: user.avatar,
-  }))
-
-  router.push('/dashboard')
-}
+const {
+  focused,
+  showPassword,
+  isLoading,
+  errorMessage,
+  form,
+  handleLogin,
+} = useLogin()
 </script>

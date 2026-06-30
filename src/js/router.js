@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/auth/Login.vue'
-import Layout from '../views/layout/Layout.vue'
+import Layout from '../views/layout/layout.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Attendance from '../views/attendance/Attendance.vue'
 import Monitor from '../views/attendance/Monitor.vue'
+import Review from '../views/attendance/Review.vue'
 import Branch from '../views/branch/Branch.vue'
 import Shift from '../views/branch/Shift.vue'
+import Usershift from '../views/branch/Usershift.vue'
 import ManageUsers from '../views/users/Manage-user.vue'
 import ManageRoles from '../views/users/Manage-role.vue'
 import ManageDeptPosition from '../views/users/Manage-dept.vue'
@@ -19,10 +21,12 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       { path: 'dashboard', name: 'Dashboard', component: Dashboard },
-      { path: 'attendance', name: 'Attendance', component: Attendance },
+      { path: 'attendance/timesheet', name: 'Attendance', component: Attendance },
       { path: 'attendance/monitor', name: 'Monitor', component: Monitor },
+      { path: 'attendance/review', name: 'Review', component: Review },
       { path: 'branch', name: 'Branch', component: Branch },
       { path: 'shift', name: 'Shift', component: Shift },
+      { path: 'usershift', name: 'Usershift', component: Usershift },
       { path: 'users/manage', name: 'ManageUsers', component: ManageUsers },
       { path: 'users/roles', name: 'ManageRoles', component: ManageRoles },
       { path: 'users/department-position', name: 'ManageDeptPosition', component: ManageDeptPosition },
