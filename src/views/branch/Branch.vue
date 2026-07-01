@@ -1,8 +1,8 @@
 <template>
   <PageHeader
-    title="Branch"
+    title="Cabang"
     description="Kelola cabang perusahaan beserta lokasinya."
-    action-label="Tambah Branch"
+    action-label="Tambah Cabang"
     action-label-short="Tambah"
     @action="openAddBranchModal"
   />
@@ -13,14 +13,14 @@
     <!-- Top Bar -->
     <div class="flex items-center justify-between px-5 lg:px-7 py-4 lg:py-5 border-b border-gray-200">
       <div class="flex items-center gap-3">
-        <h2 class="text-[15px] lg:text-[17px] font-bold text-gray-900">Data Branch</h2>
-        <span class="text-[12px] lg:text-[12.5px] text-gray-400">{{ branches.length }} branch</span>
+        <h2 class="text-[15px] lg:text-[17px] font-bold text-gray-900">Data Cabang</h2>
+        <span class="text-[12px] lg:text-[12.5px] text-gray-400">{{ branches.length }} Cabang</span>
       </div>
     </div>
 
     <!-- Mobile Cards -->
-    <div class="md:hidden flex flex-col divide-y divide-gray-100">
-      <EmptyState v-if="branches.length === 0" message="Belum ada data branch." />
+    <div v-if="!isDesktop" class="flex flex-col divide-y divide-gray-100">
+      <EmptyState v-if="branches.length === 0" message="Belum ada data cabang." />
       <div v-for="branch in branches" :key="branch.id" class="px-5 py-5 flex flex-col gap-3">
         <div class="flex items-start justify-between">
           <div>
@@ -42,12 +42,12 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block overflow-x-auto">
+    <div v-else class="overflow-x-auto">
       <table class="w-full min-w-[800px] border-collapse">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr class="text-center text-xs font-bold tracking-[0.1em] text-gray-600">
             <th class="px-6 py-4 w-[60px] border-r border-gray-200">NO</th>
-            <th class="px-6 py-4 w-[200px] border-r border-gray-200">NAMA BRANCH</th>
+            <th class="px-6 py-4 w-[200px] border-r border-gray-200">NAMA CABANG</th>
             <th class="px-6 py-4 border-r border-gray-200">ALAMAT</th>
             <th class="px-6 py-4 w-[110px] border-r border-gray-200">JML SHIFT</th>
             <th class="px-3 py-4 w-[80px]">AKSI</th>
@@ -56,7 +56,7 @@
         <tbody class="divide-y divide-gray-100">
           <tr v-if="branches.length === 0">
             <td colspan="5">
-              <EmptyState message="Belum ada data branch." />
+              <EmptyState message="Belum ada data cabang." />
             </td>
           </tr>
           <tr
@@ -95,16 +95,16 @@
   <!-- BRANCH MODAL -->
   <Modal :show="showBranchModal" max-width="520px" @close="closeBranchModal">
     <h2 class="text-[18px] font-bold text-[#1a1a2e] mb-5">
-      {{ editingBranch ? 'Edit Branch' : 'Tambah Branch' }}
+      {{ editingBranch ? 'Edit Cabang' : 'Tambah Cabang' }}
     </h2>
 
     <div class="flex flex-col gap-4">
       <div>
-        <label class="text-[10.5px] font-bold tracking-[0.12em] text-gray-400 mb-1.5 block">NAMA BRANCH</label>
+        <label class="text-[10.5px] font-bold tracking-[0.12em] text-gray-400 mb-1.5 block">NAMA CABANG</label>
         <input
           v-model="branchForm.name"
           type="text"
-          placeholder="Contoh: Branch Jakarta Pusat"
+          placeholder="Contoh: Cabang Jakarta Pusat"
           class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
@@ -202,10 +202,10 @@
   <!-- DELETE BRANCH MODAL -->
   <ConfirmDeleteModal
     :show="showDeleteBranchModal"
-    title="Hapus Branch"
+    title="Hapus Cabang"
     :item-name="branchToDelete?.name"
     :warning="shiftCountForBranch(branchToDelete?.id) > 0
-      ? `Branch ini memiliki ${shiftCountForBranch(branchToDelete?.id)} shift terkait. Shift tersebut juga akan ikut terhapus.`
+      ? `Cabang ini memiliki ${shiftCountForBranch(branchToDelete?.id)} shift terkait. Shift tersebut juga akan ikut terhapus.`
       : ''"
     @cancel="showDeleteBranchModal = false"
     @confirm="deleteBranch"
@@ -214,6 +214,7 @@
 
 <script setup>
 import { useBranch } from '@/composables/branch/useBranch.js'
+import { useIsDesktop } from '@/composables/useMediaQuery.js'
 import PageHeader from '@/components/ui/PageHeader.vue'
 import Pagination from '@/components/ui/Pagination.vue'
 import Modal from '@/components/ui/Modal.vue'
@@ -221,6 +222,8 @@ import ConfirmDeleteModal from '@/components/ui/ConfirmDeleteModal.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import IconButton from '@/components/ui/IconButton.vue'
 import ActionButton from '@/components/ui/ActionButton.vue'
+
+const isDesktop = useIsDesktop()
 
 const { user } = defineProps({
   user: Object

@@ -35,7 +35,7 @@
     </div>
 
     <!-- Mobile Cards -->
-    <div class="md:hidden flex flex-col divide-y divide-gray-100">
+    <div v-if="!isDesktop" class="flex flex-col divide-y divide-gray-100">
       <EmptyState v-if="paginatedData.length === 0" message="Tidak ada data yang sesuai filter." />
       <div v-for="(user, index) in paginatedData" :key="user.id" class="px-5 py-5 flex flex-col gap-3">
         <div class="flex items-start justify-between">
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block overflow-x-auto">
+    <div v-else class="overflow-x-auto">
       <table class="w-full min-w-[1200px] border-collapse">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr class="text-center text-xs font-bold tracking-[0.1em] text-gray-600">
@@ -242,6 +242,7 @@
 
 <script setup>
 import { useManageUser } from '@/composables/users/useManageUser.js'
+import { useIsDesktop } from '@/composables/useMediaQuery.js'
 import PageHeader from '@/components/ui/PageHeader.vue'
 import Pagination from '@/components/ui/Pagination.vue'
 import Modal from '@/components/ui/Modal.vue'
@@ -249,6 +250,8 @@ import ConfirmDeleteModal from '@/components/ui/ConfirmDeleteModal.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import IconButton from '@/components/ui/IconButton.vue'
 import ActionButton from '@/components/ui/ActionButton.vue'
+
+const isDesktop = useIsDesktop()
 
 const { user } = defineProps({
   user: Object

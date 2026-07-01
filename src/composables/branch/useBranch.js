@@ -1,6 +1,19 @@
 import { ref, reactive, computed, nextTick, onUnmounted } from 'vue'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
+
+// Leaflet TIDAK di-import di top-level lagi.
+// Library ini (JS + CSS) baru akan di-download saat modal peta
+// benar-benar dibuka (initMap dipanggil), bukan saat halaman Branch
+// pertama kali dirender.
+let _LeafletCache = null
+async function loadLeaflet() {
+  if (_LeafletCache) return _LeafletCache
+  const [leafletModule] = await Promise.all([
+    import('leaflet'),
+    import('leaflet/dist/leaflet.css'),
+  ])
+  _LeafletCache = leafletModule.default
+  return _LeafletCache
+}
 
 export function useBranch() {
   /* ===================== BRANCH ===================== */
@@ -142,6 +155,7 @@ export function useBranch() {
   async function initMap() {
     await nextTick()
     if (!mapContainer.value) return
+    const L = await loadLeaflet()
     const initialLat = branchForm.latitude ? parseFloat(branchForm.latitude) : -6.2088
     const initialLng = branchForm.longitude ? parseFloat(branchForm.longitude) : 106.8456
     map = L.map(mapContainer.value).setView([initialLat, initialLng], branchForm.latitude ? 15 : 11)

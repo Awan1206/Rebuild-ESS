@@ -48,7 +48,7 @@
   <!-- ══════════════════════════════════════════════════
        DESKTOP LAYOUT (≥ lg)
   ══════════════════════════════════════════════════ -->
-  <div class="hidden lg:block">
+  <div v-if="isDesktop">
 
     <!-- Calendar Card -->
     <div class="bg-white rounded-2xl border border-gray-200 ring-1 ring-gray-100 overflow-hidden">
@@ -116,7 +116,7 @@
   <!-- ══════════════════════════════════════════════════
        MOBILE LAYOUT (< lg)
   ══════════════════════════════════════════════════ -->
-  <div class="lg:hidden flex flex-col gap-4">
+  <div v-else class="flex flex-col gap-4">
 
     <!-- Calendar Card Mobile -->
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
@@ -243,6 +243,9 @@
 
 <script setup>
 import { useAttendance } from '@/composables/attendance/useAttendance.js'
+import { useIsDesktop } from '@/composables/useMediaQuery.js'
+
+const isDesktop = useIsDesktop()
 
 const { user } = defineProps({
   user: Object

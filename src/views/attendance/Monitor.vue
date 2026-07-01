@@ -146,7 +146,7 @@
     </div>
 
     <!-- Mobile Table Cards -->
-    <div class="md:hidden flex flex-col divide-y divide-gray-100">
+    <div v-if="!isDesktop" class="flex flex-col divide-y divide-gray-100">
       <div v-if="paginatedData.length === 0" class="text-center text-[13px] text-gray-400 py-14">
         Tidak ada data yang sesuai filter.
       </div>
@@ -177,7 +177,7 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block overflow-x-auto">
+    <div v-else class="overflow-x-auto">
       <table class="w-full min-w-[1200px] border-collapse">
         <thead class="bg-gray-100 border-b border-gray-200">
           <tr class="text-center text-xs font-bold tracking-[0.1em] text-gray-600">
@@ -351,6 +351,9 @@
 
 <script setup>
 import { useMonitor } from '@/composables/attendance/useMonitor.js'
+import { useIsDesktop } from '@/composables/useMediaQuery.js'
+
+const isDesktop = useIsDesktop()
 
 const { user } = defineProps({
   user: Object

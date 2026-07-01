@@ -133,8 +133,12 @@ export function useClockInModal(props, emit) {
     } else {
       clearInterval(clockTimer)
       stopCamera()
+      userLat.value         = null
+      userLng.value         = null
+      locationAddress.value = ''
+      locationError.value   = ''
     }
-  })
+  }, { immediate: true })
 
   onUnmounted(() => { clearInterval(clockTimer); stopCamera() })
 

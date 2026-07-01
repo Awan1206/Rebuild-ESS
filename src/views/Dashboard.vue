@@ -24,7 +24,7 @@
   <!-- ══════════════════════════════════════════════════
        DESKTOP LAYOUT (≥ lg)
   ══════════════════════════════════════════════════ -->
-  <div class="hidden lg:grid grid-cols-[1fr_280px] gap-4">
+  <div v-if="isDesktop" class="grid grid-cols-[1fr_280px] gap-4">
 
     <!-- LEFT: Clock In + Countdown side by side -->
     <div class="flex gap-4">
@@ -136,7 +136,7 @@
   <!-- ══════════════════════════════════════════════════
        MOBILE LAYOUT (< lg)
   ══════════════════════════════════════════════════ -->
-  <div class="lg:hidden flex flex-col gap-4">
+  <div v-else class="flex flex-col gap-4">
 
     <!-- Clock In Card -->
     <div class="bg-white rounded-2xl p-5 flex flex-col gap-3">
@@ -236,6 +236,7 @@
 
   <!-- Modal - tambah props mode dan clock-in-time -->
   <ClockInModal
+    v-if="showClockInModal"
     v-model="showClockInModal"
     :mode="isClockedIn ? 'clockout' : 'clockin'"
     :clock-in-time="clockInTime"
@@ -245,8 +246,16 @@
 </template>
 
 <script setup>
-import ClockInModal from '@/components/attendance/ClockInModal.vue'
+import { defineAsyncComponent } from 'vue'
 import { useDashboard } from '@/composables/useDashboard.js'
+import { useIsDesktop } from '@/composables/useMediaQuery.js'
+
+// Lazy load - hanya di-load saat pertama kali modal dibuka
+const ClockInModal = defineAsyncComponent(() => 
+  import('@/components/attendance/ClockInModal.vue')
+)
+
+const isDesktop = useIsDesktop()
 
 const { user } = defineProps({
   user: Object

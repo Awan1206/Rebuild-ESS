@@ -19,11 +19,14 @@
 </template>
 
 <script setup>
-import Sidebar from '@/components/layout/Sidebar.vue'
-import Header from '@/components/layout/Header.vue'
-import BottomNav from '@/components/layout/BotNav.vue'
-import Footer from '@/components/layout/Footer.vue'
+import { defineAsyncComponent } from 'vue'
 import { useLayout } from '@/composables/layout/useLayout.js'
+
+// Lazy load semua komponen layout
+const Sidebar  = defineAsyncComponent(() => import('@/components/layout/Sidebar.vue'))
+const Header   = defineAsyncComponent(() => import('@/components/layout/Header.vue'))
+const BottomNav = defineAsyncComponent(() => import('@/components/layout/BotNav.vue'))
+const Footer   = defineAsyncComponent(() => import('@/components/layout/Footer.vue'))
 
 const { sidebarOpen, currentUser, toggleSidebar } = useLayout()
 </script>
